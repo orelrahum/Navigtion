@@ -1,8 +1,10 @@
 package Geom;
 
 import java.io.Serializable;
+
 public class Point3D implements Geom_element, Serializable 
 {
+	
 	/**
 	 * This class represents a 3D point in space.
 	 */
@@ -237,4 +239,10 @@ public final static int DOWN = 6, UP = 7;
 	/** transform from radians to angles */
 	public static double d2r(double a) { return Math.toRadians(a);}
 	////////////////////////////////////////////////////////////////////////////////
+	public void PolarToCartes() {
+		double R=6371000,lat=this._x,lon=this._y;
+		this._x=R*Math.cos(lat)*Math.cos(lon);
+		this._y=R*Math.cos(lat)*Math.sin(lon);
+		this._z=R*Math.sin(lat);
+	}
 }
