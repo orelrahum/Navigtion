@@ -1,43 +1,42 @@
 package File_format;
 
+import java.io.File;
 import java.util.Iterator;
-
-import Declaration.Filters;
+import GIS.layer;
+import GIS.CSVReader;
+import GIS.GIS_element;
+import GIS.Project;
+import java.util.ArrayList;
 
 public class multiCSV {
+	private static Project pro= new Project();
+	private static layer lay=new layer();
+	public static ArrayList<String> CSVFiles=new ArrayList<String>(); 
 
+	
+	public static ArrayList<String>  CSVrexursia(String directoryPath){
+		File[] filesInDirectory = new File(directoryPath).listFiles();
+		for(File f : filesInDirectory){
+			String filePath = f.getAbsolutePath();
+			String fileExtenstion = filePath.substring(filePath.lastIndexOf(".") + 1,filePath.length());
+			if("csv".equals(fileExtenstion)){
+				CSVFiles.add(filePath);
+				System.out.println("CSV file found -> " + filePath);
+				// Call the method checkForCobalt(filePath);
+			}
+		}    
+		return CSVFiles;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		StringBuilder Builder = new StringBuilder();
-		Iterator<Filters> it=file.getFilters().iterator();
-		Builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		Builder.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
-		Builder.append("<Document>");
-		while(it.hasNext()) {
-			Filters Replace=it.next();
-			Builder.append("<Placemark>");
-			Builder.append("<name>");
-			Builder.append(Replace.getName());
-			Builder.append("</name>");
-			Builder.append("<description>");
-			Builder.append(Replace.getDescription());
-			Builder.append("</description>");
-			Builder.append("<Point>");
-			Builder.append("<coordinates>");
-			Builder.append(Replace.getPoint());
-			Builder.append("</coordinates>");
-			Builder.append("</Point>");
-			Builder.append("<time>");
-			Builder.append(Replace.getTime());
-			Builder.append("</time>");
-			Builder.append("</Placemark>");
+		ArrayList<String> CSV=new ArrayList<String>();
+		String directoryPath="";
+		CSV=CSVrexursia(directoryPath);
+		Iterator<String> CSVF = CSV.iterator();
+		while (CSVF.hasNext()) {
+			lay=CSVReader.CVSread(CSVF.next());
+			pro.add(lay);
 		}
-		Builder.append("</Document>");
-		Builder.append("</kml>");
-		Print.write(Builder.toString());
-		Print.close();
-		System.out.println("the conversion was sucsess :)");
+		
 	}
-	}
-
 }

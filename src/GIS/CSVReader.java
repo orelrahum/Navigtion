@@ -7,56 +7,82 @@ import java.util.Iterator;
 
 public class CSVReader {
 	private String _MAC , _SSID , _AuthMode , _FirstSeen , _Channel , _RSSI ,_CurrentLatitude,_AltitudeMeters, _AccuracyMeters , _Type;
-    public static void main(String[] args) 
-    {
-        String csvFile = "C:\\Users\\orelr\\Desktop\\New folder\\WigleWifi_20171203085618.csv";
-        String line = "";
-        String cvsSplitBy = ",";
-        layer lay=new layer();
-        ArrayList<String> _MAC=new ArrayList<String>();
-        ArrayList<String> _SSID=new ArrayList<String>();
-        ArrayList<String> _AuthMode=new ArrayList<String>();
-        ArrayList<String> _FirstSeen=new ArrayList<String>();
-        ArrayList<String> _Channel=new ArrayList<String>();
-        ArrayList<String> _RSSI=new ArrayList<String>();
-        ArrayList<String> _CurrentLatitude=new ArrayList<String>();
-        ArrayList<String> _AltitudeMeters=new ArrayList<String>();
-        ArrayList<String> _AccuracyMeters=new ArrayList<String>();
-        ArrayList<String> _Type=new ArrayList<String>();
+	public static layer CVSread(String csvFile){
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
-        {	
-        	line = br.readLine();
-        	line = br.readLine();
-        	
-            while ((line = br.readLine()) != null) 
-            {
-                String[] userInfo = line.split(cvsSplitBy);
-                _MAC.add(userInfo[0]);
-                _SSID.add(userInfo[1]);
-                _AuthMode.add(userInfo[2]);
-                _FirstSeen.add(userInfo[3]);
-                _Channel.add(userInfo[4]);
-                _RSSI.add(userInfo[5]);
-                _CurrentLatitude.add(userInfo[6]);
-                _AltitudeMeters.add(userInfo[7]);
-                _AccuracyMeters.add(userInfo[8]);
-                _Type.add(userInfo[9]);
-                element e=new element(userInfo[0],userInfo[1],userInfo[2],userInfo[3],userInfo[4],userInfo[5]
-                		,userInfo[6],userInfo[7],userInfo[8],userInfo[9]);
-                lay.add(e);
-//             System.out.println("MAC: " + userInfo[0] + " , _SSID: " + userInfo[1] +
-//              		" _AuthMode: " + userInfo[2] + " _FirstSeen: " + userInfo[3] +
-//              		"_Channel: "+ userInfo[4] + "_RSSI: "+ userInfo[5]+ "_CurrentLatitude: "+ 
-//               		userInfo[6]+ "_AltitudeMeters: "+ userInfo[7] + "_AccuracyMeters: "+ userInfo[8]+
-//               		"_Type: "+ userInfo[9]);
-           }
+		String line = "";
+		String cvsSplitBy = ",";
+		layer lay=new layer();
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
+		{	
+			line = br.readLine();
+			line = br.readLine();
 
-        } catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
+			while ((line = br.readLine()) != null) 
+			{
+				String[] AllData = line.split(cvsSplitBy);
+				element e=new element(AllData[0],AllData[1],AllData[2],AllData[3],AllData[4],AllData[5]
+						,AllData[6],AllData[7],AllData[8],AllData[9]);
+				lay.add(e);
+			}
 
-    }
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		return lay;
+	}
 
+//	public static void main(String[] args) 
+//	{
+//
+//		String csvFile = "C:\\Users\\orelr\\Desktop\\New folder\\WigleWifi_20171203085618.csv";
+//		String line = "";
+//		String cvsSplitBy = ",";
+//		layer lay=new layer();
+//		ArrayList<String> _MAC=new ArrayList<String>();
+//		ArrayList<String> _SSID=new ArrayList<String>();
+//		ArrayList<String> _AuthMode=new ArrayList<String>();
+//		ArrayList<String> _FirstSeen=new ArrayList<String>();
+//		ArrayList<String> _Channel=new ArrayList<String>();
+//		ArrayList<String> _RSSI=new ArrayList<String>();
+//		ArrayList<String> _CurrentLatitude=new ArrayList<String>();
+//		ArrayList<String> _AltitudeMeters=new ArrayList<String>();
+//		ArrayList<String> _AccuracyMeters=new ArrayList<String>();
+//		ArrayList<String> _Type=new ArrayList<String>();
+//
+//		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) 
+//		{	
+//			line = br.readLine();
+//			line = br.readLine();
+//
+//			while ((line = br.readLine()) != null) 
+//			{
+//				String[] AllData = line.split(cvsSplitBy);
+//				_MAC.add(AllData[0]);
+//				_SSID.add(AllData[1]);
+//				_AuthMode.add(AllData[2]);
+//				_FirstSeen.add(AllData[3]);
+//				_Channel.add(AllData[4]);
+//				_RSSI.add(AllData[5]);
+//				_CurrentLatitude.add(AllData[6]);
+//				_AltitudeMeters.add(AllData[7]);
+//				_AccuracyMeters.add(AllData[8]);
+//				_Type.add(AllData[9]);
+//				element e=new element(AllData[0],AllData[1],AllData[2],AllData[3],AllData[4],AllData[5]
+//						,AllData[6],AllData[7],AllData[8],AllData[9]);
+//				lay.add(e);
+//				//             System.out.println("MAC: " + AllData[0] + " , _SSID: " + AllData[1] +
+//				//              		" _AuthMode: " + AllData[2] + " _FirstSeen: " + AllData[3] +
+//				//              		"_Channel: "+ AllData[4] + "_RSSI: "+ AllData[5]+ "_CurrentLatitude: "+ 
+//				//               		AllData[6]+ "_AltitudeMeters: "+ AllData[7] + "_AccuracyMeters: "+ AllData[8]+
+//				//               		"_Type: "+ AllData[9]);
+//			}
+//
+//		} catch (IOException e) 
+//		{
+//			e.printStackTrace();
+//		}
+//
+//	}
+//
 }

@@ -1,44 +1,45 @@
 package GIS;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class Project implements GIS_project{
-
+	ArrayList<GIS_layer> Project=new ArrayList<GIS_layer>();
 	@Override
 	public boolean add(GIS_layer arg0) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.add(arg0);
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends GIS_layer> c) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.addAll(c);
 	}
 
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
-		
+		Project.clear();
 	}
 
 	@Override
 	public boolean contains(Object o) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.contains(o);
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.containsAll(c);
 	}
 
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.isEmpty();
 	}
 
 	@Override
@@ -50,25 +51,25 @@ public class Project implements GIS_project{
 	@Override
 	public boolean remove(Object o) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.remove(o);
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.removeAll(c);
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		// TODO Auto-generated method stub
-		return false;
+		return Project.retainAll(c);
 	}
 
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Project.size();
 	}
 
 	@Override

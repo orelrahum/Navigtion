@@ -5,12 +5,8 @@ import Geom.Point3D;
 
 public class element implements GIS_element{
 	private String _MAC , _SSID , _AuthMode , _FirstSeen , _Channel , _RSSI ,_CurrentLatitude,_AltitudeMeters, _AccuracyMeters , _Type;
-	private data _info;
-	private Point3D _Geom;
-	
+
 	public element() {
-		this._Geom=null;
-		this._info=null;
 		this._MAC=null;
 		this._SSID=null;
 		this._AuthMode=null;
@@ -23,8 +19,6 @@ public class element implements GIS_element{
 		this._Type=null;	
 	}
 	public element(String mac,String ssid, String authmode,String firstseen,String channel,String rssi,String currentlatitude, String altitudemeters,String accuracymeters,String type ) {
-//		this._Geom=geom;
-//		this._info=info;
 		this._MAC=mac;
 		this._SSID=ssid;
 		this._AuthMode=authmode;
