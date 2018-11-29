@@ -30,12 +30,19 @@ public class multiCSV {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ArrayList<String> CSV=new ArrayList<String>();
+		Iterator<String> CSVF = CSV.iterator();
+		ArrayList<layer> pro=new ArrayList<layer>();
+		Iterator<layer> project = pro.iterator();
 		String directoryPath="";
 		CSV=CSVrexursia(directoryPath);
-		Iterator<String> CSVF = CSV.iterator();
 		while (CSVF.hasNext()) {
 			lay=CSVReader.CVSread(CSVF.next());
 			pro.add(lay);
+		}
+		while (project.hasNext()) {
+			while (CSVF.hasNext()) {
+				
+			}
 		}
 		
 	}
