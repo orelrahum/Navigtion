@@ -22,9 +22,9 @@ public class element implements GIS_element{
 		this._AccuracyMeters=null;
 		this._Type=null;	
 	}
-	public element(Point3D geom,data info,String mac,String ssid, String authmode,String firstseen,String channel,String rssi,String currentlatitude, String altitudemeters,String accuracymeters,String type ) {
-		this._Geom=geom;
-		this._info=info;
+	public element(String mac,String ssid, String authmode,String firstseen,String channel,String rssi,String currentlatitude, String altitudemeters,String accuracymeters,String type ) {
+//		this._Geom=geom;
+//		this._info=info;
 		this._MAC=mac;
 		this._SSID=ssid;
 		this._AuthMode=authmode;

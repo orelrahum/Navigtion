@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class layer implements GIS_layer{
+	public layer(){
+		
+	}
 	ArrayList<GIS_element> places=new ArrayList<GIS_element>();
 	@Override
 	public boolean add(GIS_element e) {
