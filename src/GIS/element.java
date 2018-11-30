@@ -95,7 +95,7 @@ public class element implements GIS_element{
 		this._AccuracyMeters =_AccuracyMeters;
 	}
 	
-	public String get__Type() {
+	public String get_Type() {
 		return _Type;
 	}
 	private void set_Type(String _Type) {

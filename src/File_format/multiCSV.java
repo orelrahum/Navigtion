@@ -39,11 +39,7 @@ public class multiCSV {
 			lay=CSVReader.CVSread(CSVF.next());
 			pro.add(lay);
 		}
-		while (project.hasNext()) {
-			while (CSVF.hasNext()) {
-				
-			}
-		}
-		
+		String SaveKMLTo="";
+		Writekml (pro,SaveKMLTo);
 	}
 }

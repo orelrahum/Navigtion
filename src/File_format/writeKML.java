@@ -34,12 +34,13 @@ public class writeKML {
 			GIS_layer lay=project.next();
 			Iterator<GIS_element> element= lay.iterator();
 			while(element.hasNext()){
-				GIS_element elm = element.next();
+				GIS_element elme = element.next();
+				element elm =(element) elme;
 				writer.write("<Placemark>\n");
 				writer.write("<name>"+"<![CDATA["+elm.get_SSID()+"]]>"  +"</name>\n");
-				writer.write("<description>"+"<![CDATA[BSSID: <b>"+elm.getMAC()+"</b><br/>Capabilities: <b>"+elm.getAuthMode()+"</b><br/>Timestamp: <b>"+elm.getUTC()+"</b><br/>Channel: <b>"+elm.getMd().getChannel()+"</b><br/>RSSI: <b>"+elm.getMd().getRSSI()+"</b><br/>AltitudeMeters: <b>"+elm.getP().z()+"</b><br/>AccuracyMeters: <b>"+elm.getMd().getAccuracyMeters()+"</b><br/>Type: <b>"+elm.getMd().getType()+"</b><br/>Date: <b>"+elm.getMd().getFirstSeen()+"</b>]]>"+"</description><styleUrl>#blue</styleUrl>\n");
+				writer.write("<description>"+"<![CDATA[BSSID: <b>"+elm.get_MAC()+"</b><br/>Capabilities: <b>"+elm.get_AuthMode()+"</b><br/>Timestamp: <b>"+elm.get_UTC()+"</b><br/>Channel: <b>"+elm.get_Channel()+"</b><br/>RSSI: <b>"+elm.get_RSSI()+"</b><br/>AltitudeMeters: <b>"+elm.getP().z()+"</b><br/>AccuracyMeters: <b>"+elm.get_AccuracyMeters()+"</b><br/>Type: <b>"+elm.get_Type()+"</b><br/>Date: <b>"+elm.get_FirstSeen()+"</b>]]>"+"</description><styleUrl>#blue</styleUrl>\n");
 				writer.write("<Point>\n");
-				writer.write("<coordinates>"+elm.getP().y()+","+elm.x()+"</coordinates></Point>\n");
+				writer.write("<coordinates>"+elm.get_CurrentLatitude+","+elm.x()+"</coordinates></Point>\n");
 				writer.write("</Placemark>\n");
 			}
 
