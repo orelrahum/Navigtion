@@ -1,6 +1,7 @@
 package File_format;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import GIS.layer;
 import GIS.CSVReader;
@@ -29,17 +30,24 @@ public class multiCSV {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ArrayList<String> CSV=new ArrayList<String>();
-		Iterator<String> CSVF = CSV.iterator();
-		ArrayList<layer> pro=new ArrayList<layer>();
-		Iterator<layer> project = pro.iterator();
-		String directoryPath="";
-		CSV=CSVrexursia(directoryPath);
-		while (CSVF.hasNext()) {
-			lay=CSVReader.CVSread(CSVF.next());
+	
+		Project pro=new Project();
+		String directoryPath="C:\\Users\\orelr\\Desktop\\data";
+		CSVFiles=CSVrexursia(directoryPath);
+		Iterator<String> CSVFile = CSVFiles.iterator();
+		while (CSVFile.hasNext()) {
+			lay=CSVReader.CVSread(CSVFile.next());
 			pro.add(lay);
 		}
-		String SaveKMLTo="";
-		Writekml (pro,SaveKMLTo);
+		System.out.println(pro.size());
+		String SaveKMLTo="C:\\Users\\orelr\\Desktop\\data\\checkcheck111.kml";
+		try {
+			writeKML kml =new writeKML (SaveKMLTo);
+			kml.write(pro);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -4,7 +4,7 @@ import Geom.Geom_element;
 import Geom.Point3D;
 
 public class element implements GIS_element{
-	private String _MAC , _SSID , _AuthMode , _FirstSeen , _Channel , _RSSI ,_CurrentLatitude,_AltitudeMeters, _AccuracyMeters , _Type;
+	private String _MAC , _SSID , _AuthMode , _FirstSeen , _Channel , _RSSI ,_CurrentLatitude ,_CurrentLongitude,_AltitudeMeters, _AccuracyMeters , _Type;
 
 	public element() {
 		this._MAC=null;
@@ -14,11 +14,12 @@ public class element implements GIS_element{
 		this._Channel=null;
 		this._RSSI=null;
 		this._CurrentLatitude=null;
+		this._CurrentLongitude=null;
 		this._AltitudeMeters=null;
 		this._AccuracyMeters=null;
 		this._Type=null;	
 	}
-	public element(String mac,String ssid, String authmode,String firstseen,String channel,String rssi,String currentlatitude, String altitudemeters,String accuracymeters,String type ) {
+	public element(String mac,String ssid, String authmode,String firstseen,String channel,String rssi,String currentlatitude,String currentLongitude, String altitudemeters,String accuracymeters,String type ) {
 		this._MAC=mac;
 		this._SSID=ssid;
 		this._AuthMode=authmode;
@@ -26,6 +27,7 @@ public class element implements GIS_element{
 		this._Channel=channel;
 		this._RSSI=rssi;
 		this._CurrentLatitude=currentlatitude;
+		this._CurrentLongitude=currentLongitude;
 		this._AltitudeMeters=altitudemeters;
 		this._AccuracyMeters=accuracymeters;
 		this._Type=type;
@@ -109,9 +111,12 @@ public class element implements GIS_element{
 	private void set__AccuracyMeters(String _AccuracyMeters) {
 		this._AccuracyMeters=_AccuracyMeters;
 	}
-	
-
-
+	public String get_CurrentLongitude() {
+		return _CurrentLongitude;
+	}
+	private void set_CurrentLongitude(String _CurrentLongitude) {
+		this._CurrentLongitude=_CurrentLongitude;
+	}
 	@Override
 	public Geom_element getGeom() {
 		// TODO Auto-generated method stub

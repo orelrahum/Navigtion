@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CSVReader {
-	private String _MAC , _SSID , _AuthMode , _FirstSeen , _Channel , _RSSI ,_CurrentLatitude,_AltitudeMeters, _AccuracyMeters , _Type;
 	public static layer CVSread(String csvFile){
 
 		String line = "";
@@ -21,7 +20,7 @@ public class CSVReader {
 			{
 				String[] AllData = line.split(cvsSplitBy);
 				element e=new element(AllData[0],AllData[1],AllData[2],AllData[3],AllData[4],AllData[5]
-						,AllData[6],AllData[7],AllData[8],AllData[9]);
+						,AllData[6],AllData[7],AllData[8],AllData[9], AllData[10]);
 				lay.add(e);
 			}
 
