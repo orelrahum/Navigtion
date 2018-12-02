@@ -28,10 +28,9 @@ public class MyCoords implements coords_converter {
 	/**
 	 *  This function calculates the distance between  2 gps Coords
 	 *  To read about the calculation https://stackoverflow.com/questions/1185408/converting-from-longitude-latitude-to-cartesian-coordinates
-	 *@param lonNorm
-	 *@param lon Longitude is a geographic coordinate that specifies the east–west position of a point on the Earth's surface
-	 *@param lat latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
-	 *@param dis the distance between 2 gps Coords
+	 *lon - Longitude is a geographic coordinate that specifies the east–west position of a point on the Earth's surface
+	 * lat - latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	 * dis - the distance between 2 gps Coords
 	 *@return dis 
 	 */
 	@Override
@@ -75,7 +74,7 @@ public class MyCoords implements coords_converter {
 	}
 
 	/**
-	 * Computes the polar representation of the 3D vector be gps0-->gps1.
+	 * Computes the polar representation of the 3D vector be gps0>gps1.
 	 * Note: this method should return an azimuth (aka yaw), elevation (pitch), and distance
 	 * @param gps0 - the first 3d point
 	 * @param gps1 - the second 3d point
