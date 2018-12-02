@@ -23,7 +23,7 @@ public class multiCSV {
 			lay=CSVReader.CVSread(CSVFile.next());
 			pro.add(lay);
 		}
-		String SaveKMLTo="C:\\Users\\LitalStudy\\Desktop\\Ex2\\data\\newfile.kml";
+		String SaveKMLTo="C:\\Users\\LitalStudy\\Desktop\\Ex2\\data\\newfile111.kml";
 		writeKML kml=new writeKML (SaveKMLTo ,pro);	
 	}
 

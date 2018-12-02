@@ -236,7 +236,10 @@ public final static int DOWN = 6, UP = 7;
 	}
 	/** transform from radians to angles */
 	public static double r2d(double a) { return Math.toDegrees(a);}
-	/** transform from radians to angles */
+	/** transform from radians to angles 
+	 *@param d2r this is  
+	 *
+	 * */
 	public static double d2r(double a) { return Math.toRadians(a);}
 	////////////////////////////////////////////////////////////////////////////////
 	public void PolarToCartes() {
