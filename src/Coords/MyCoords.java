@@ -1,6 +1,11 @@
 package Coords;
 
 import Geom.Point3D;
+/**
+ * 
+ *@author orelr
+ *@author lital
+ */
 
 public class MyCoords implements coords_converter {
 	/**
