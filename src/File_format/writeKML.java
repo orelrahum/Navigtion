@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-import Declaration.Filters;
-import GIS.CSVReader;
 import GIS.GIS_element;
 import GIS.GIS_layer;
 
@@ -62,7 +60,7 @@ public class writeKML {
 		sb.append("</Document></kml>");
 		pw.write(sb.toString());
 		pw.close();
-		System.out.println("we Create ");
+		System.out.println("congratulations , you Have your KML file in: \n" +output);
 	}
 		
 	}

@@ -1,9 +1,12 @@
-package GIS;
+package File_format;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import GIS.element;
+import GIS.layer;
 
 public class CSVReader {
 	public static layer CVSread(String csvFile){
