@@ -32,7 +32,7 @@ public class multiCSV {
 		// TODO Auto-generated method stub
 	
 		Project pro=new Project();
-		String directoryPath="C:\\Users\\orelr\\Desktop\\data";
+		String directoryPath="C:\\Users\\orelr\\Desktop\\New folder";
 		CSVFiles=CSVrexursia(directoryPath);
 		Iterator<String> CSVFile = CSVFiles.iterator();
 		while (CSVFile.hasNext()) {
@@ -40,14 +40,8 @@ public class multiCSV {
 			pro.add(lay);
 		}
 		System.out.println(pro.size());
-		String SaveKMLTo="C:\\Users\\orelr\\Desktop\\data\\checkcheck111.kml";
-		try {
-			writeKML kml =new writeKML (SaveKMLTo);
-			kml.write(pro);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+		String SaveKMLTo="C:\\Users\\orelr\\Desktop\\New folder\\chec222.kml";
+			writeKML kml;
+			kml=new writeKML (SaveKMLTo ,pro);	
+			}
 }

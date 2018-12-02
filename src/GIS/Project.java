@@ -45,7 +45,7 @@ public class Project implements GIS_project{
 	@Override
 	public Iterator<GIS_layer> iterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return Project.iterator();
 	}
 
 	@Override

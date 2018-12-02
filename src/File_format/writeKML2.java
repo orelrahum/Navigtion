@@ -19,9 +19,9 @@ import GIS.CSVReader;
 import GIS.GIS_element;
 import GIS.GIS_layer;
 
-public class writeKML {
+public class writeKML2 {
 	
-	public writeKML(String output,Project pro) {
+	public writeKML2(String output,Project pro) {
 		PrintWriter pw = null;
 		
 		try 

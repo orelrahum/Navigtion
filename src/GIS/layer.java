@@ -47,7 +47,7 @@ public class layer implements GIS_layer{
 	@Override
 	public Iterator<GIS_element> iterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return places.iterator();
 	}
 
 	@Override
