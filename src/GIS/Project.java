@@ -6,18 +6,27 @@ import java.util.Iterator;
 
 public class Project implements GIS_project{
 	ArrayList<GIS_layer> Project=new ArrayList<GIS_layer>();
+	/**
+	 * this function add a layer to the correct project
+	 * @return if the add action is success 
+	 */
 	@Override
 	public boolean add(GIS_layer arg0) {
 		// TODO Auto-generated method stub
 		return Project.add(arg0);
 	}
-
+	/**
+	 *this function add a arrayList layer to the correct project
+	 *@return if the add action is success 
+	 */
 	@Override
 	public boolean addAll(Collection<? extends GIS_layer> c) {
 		// TODO Auto-generated method stub
 		return Project.addAll(c);
 	}
-
+	/**
+	 *this function clear all the project
+	 */
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
