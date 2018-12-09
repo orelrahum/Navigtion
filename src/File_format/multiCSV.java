@@ -16,14 +16,14 @@ public class multiCSV {
 		// TODO Auto-generated method stub
 
 		Project pro=new Project();
-		String directoryPath="C:\\Users\\LitalStudy\\Desktop\\Ex2\\data";
+		String directoryPath="C:\\Users\\orelr\\Desktop\\New folder";
 		CSVFiles=CSVrexursia(directoryPath);
 		Iterator<String> CSVFile = CSVFiles.iterator();
 		while (CSVFile.hasNext()) {
 			lay=CSVReader.CVSread(CSVFile.next());
 			pro.add(lay);
 		}
-		String SaveKMLTo="C:\\Users\\LitalStudy\\Desktop\\Ex2\\data\\newfile111.kml";
+		String SaveKMLTo="C:\\Users\\orelr\\Desktop\\New folder\\1234343.kml";
 		writeKML kml=new writeKML (SaveKMLTo ,pro);	
 	}
 
