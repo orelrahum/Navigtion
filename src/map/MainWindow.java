@@ -69,10 +69,6 @@ public class MainWindow extends JFrame implements MouseListener
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		System.out.println("mouse entered");
-		if (this.getHeight()!=642 || this.getWidth()!=1433) {
-
-		}
-		
 	}
 
 	@Override
