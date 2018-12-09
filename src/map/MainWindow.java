@@ -47,8 +47,7 @@ public class MainWindow extends JFrame implements MouseListener
 
 	public void paint(Graphics g)
 	{
-		g.drawImage(myImage, 0, 0, this);
-	
+		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
 		if(x!=-1 && y!=-1)
 		{
 			int r = 10;
@@ -70,6 +69,9 @@ public class MainWindow extends JFrame implements MouseListener
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		System.out.println("mouse entered");
+		if (this.getHeight()!=642 || this.getWidth()!=1433) {
+
+		}
 		
 	}
 
