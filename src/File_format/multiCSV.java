@@ -9,24 +9,8 @@ import GIS.Project;
 import java.util.ArrayList;
 
 public class multiCSV {
-	private static Project pro= new Project();
-	private static layer lay=new layer();
 	public static ArrayList<String> CSVFiles=new ArrayList<String>(); 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		Project pro=new Project();
-		String directoryPath="C:\\Users\\orelr\\Desktop\\data";
-		CSVFiles=CSVrexursia(directoryPath);
-		Iterator<String> CSVFile = CSVFiles.iterator();
-		while (CSVFile.hasNext()) {
-			lay=CSVReader.CVSread(CSVFile.next());
-			pro.add(lay);
-		}
-		String SaveKMLTo="C:\\Users\\orelr\\Desktop\\data\\daniel1.kml";
-		writeKML kml=new writeKML (SaveKMLTo ,pro);	
-	}
-
+	
 	public static ArrayList<String>  CSVrexursia(String directoryPath){
 		File[] filesInDirectory = new File(directoryPath).listFiles();
 		for(File f : filesInDirectory){

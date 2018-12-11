@@ -10,6 +10,11 @@ public class Point3D implements Geom_element, Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private double _x,_y,_z;
+	public Point3D() {
+		_x=0;
+		_y=0;
+		_z=0;
+	}
 
 	public Point3D(double x,double y,double z) 
 	{
@@ -247,5 +252,5 @@ public final static int DOWN = 6, UP = 7;
 		this._x=R*Math.cos(lat)*Math.cos(lon);
 		this._y=R*Math.cos(lat)*Math.sin(lon);
 		this._z=R*Math.sin(lat);
-	}
+	} 
 }
