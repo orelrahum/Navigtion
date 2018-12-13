@@ -17,11 +17,8 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileSystemView;
 
 import Geom.Point3D;
 import packman.Fruit;
@@ -174,31 +171,11 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			PackOrFruit=2;
 		}
 		if (arg0.getSource()==save) {
-			JLabel l = new JLabel("no file selected"); 
-            // create an object of JFileChooser class 
-            JFileChooser j = new JFileChooser("C:\\Users\\orelr\\Desktop"); 
-            j.getSelectedFile();
-            // invoke the showsSaveDialog function to show the save dialog 
-            int r = j.showSaveDialog(null); 
-  
-            // if the user selects a file 
-            if (r == JFileChooser.APPROVE_OPTION) 
-  
-            { 
-                // set the label to the path of the selected file 
-                l.setText(j.getSelectedFile().getAbsolutePath()); 
-            } 
-            // if the user cancelled the operation 
-            else
-                l.setText("the user cancelled the operation"); 
-        } 
 			String output ;
 			output=JOptionPane.showInputDialog("Please input save place: ");
 			game.SaveGame(output);
-		
+		}
 		if (arg0.getSource()==load) {
-			JFileChooser j = new JFileChooser("C:\\Users\\orelr\\Desktop"); 
-			j.showOpenDialog(null); 
 			String load ;
 			load=JOptionPane.showInputDialog("Please input load location: ");
 			Game loaded=new Game (load);
