@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -33,8 +34,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	public BufferedImage myImage;
 	ImageIcon MyFruitImage;
 	ImageIcon myPackmanImage;
-	private MenuItem item1;
-	private MenuItem item2;
+	private MenuItem packman;
+	private MenuItem Fruit;
 	private MenuItem save;
 	private MenuItem load;
 	private MenuItem run;
@@ -53,14 +54,14 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	{
 		MenuBar menuBar = new MenuBar();
 		Menu menu = new Menu("input"); 
-		item1 = new MenuItem("packman");
-		item2 = new MenuItem("fruit");
-		item1.addActionListener(this);
-		item2.addActionListener(this);
+		packman = new MenuItem("packman");
+		Fruit = new MenuItem("fruit");
+		packman.addActionListener(this);
+		Fruit.addActionListener(this);
 
 		menuBar.add(menu);
-		menu.add(item1);
-		menu.add(item2);
+		menu.add(packman);
+		menu.add(Fruit);
 		Menu file = new Menu("file"); 
 		load = new MenuItem("load");
 		save = new MenuItem("save");
@@ -115,17 +116,18 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		x = arg.getX();
 		y = arg.getY();
 		if (PackOrFruit==1) {
-			String test ;
-			test=JOptionPane.showInputDialog("Please input packman Radius: ");
-			Double Radius=Double.parseDouble(test);
-			test=JOptionPane.showInputDialog("Please input packman speed: ");
-			Double speed=Double.parseDouble(test);
-			test=JOptionPane.showInputDialog("Please input packman height: ");
-			Double height=Double.parseDouble(test);
+			String rad,sp,hei;
+			double Radius,speed,height;
+			rad=JOptionPane.showInputDialog("Please input packman Radius: ");
+			sp=JOptionPane.showInputDialog("Please input packman speed: ");
+			hei=JOptionPane.showInputDialog("Please input packman height: ");
+
+			Radius=Double.parseDouble(rad);
+			speed=Double.parseDouble(sp);
+			height=Double.parseDouble(hei);
 			Point3D pixel=new Point3D();
 			pixel= map.PixelToCoords(x, y);
 			packman p =new packman(pixel.x(),pixel.y(),height,speed,Radius);
-
 			game.packmans.add(p);
 		}
 		if (PackOrFruit==2) {
@@ -164,23 +166,27 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource()==item1) {
+		if (arg0.getSource()==packman) {
 			PackOrFruit=1;
 		}
-		if (arg0.getSource()==item2) {
+		if (arg0.getSource()==Fruit) {
 			PackOrFruit=2;
 		}
 		if (arg0.getSource()==save) {
-			String output ;
-			output=JOptionPane.showInputDialog("Please input save place: ");
-			game.SaveGame(output);
+			JFileChooser j = new JFileChooser(); 
+			int t=j.showSaveDialog(null);
+			if (t!=1) {
+				game.SaveGame(j.getSelectedFile().getPath());
+			}
 		}
 		if (arg0.getSource()==load) {
-			String load ;
-			load=JOptionPane.showInputDialog("Please input load location: ");
-			Game loaded=new Game (load);
-			game=loaded;
-			repaint();
+			JFileChooser j = new JFileChooser(); 
+			int t=j.showOpenDialog(null);
+			if (t!=1) {
+				Game loaded=new Game (j.getSelectedFile().getPath());
+				game=loaded;
+				repaint();
+			}
 		}
 	}
 
