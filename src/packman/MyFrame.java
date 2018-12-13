@@ -1,4 +1,5 @@
-package map;
+package packman;
+
 import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.awt.Menu;
@@ -12,21 +13,26 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileSystemView;
 
 import Geom.Point3D;
 import packman.Fruit;
 import packman.packman;
 
 
-public class MainWindow extends JFrame implements MouseListener , ActionListener
+public class MyFrame extends JFrame implements MouseListener , ActionListener
 {
-	ArrayList<Fruit> Fruits=new ArrayList<Fruit>() ;
-	ArrayList<packman> packmans=new ArrayList<packman>();
+	Game game=new Game();
+	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
+	Iterator<packman> packmansIT=game.packmans.iterator();
 	public BufferedImage myImage;
 	ImageIcon MyFruitImage;
 	ImageIcon myPackmanImage;
@@ -40,7 +46,7 @@ public class MainWindow extends JFrame implements MouseListener , ActionListener
 	int x = -1;
 	int y = -1;
 
-	public MainWindow() 
+	public MyFrame() 
 	{
 		initGUI();		
 		this.addMouseListener(this); 
@@ -77,29 +83,24 @@ public class MainWindow extends JFrame implements MouseListener , ActionListener
 
 		try {
 			myImage = ImageIO.read(new File("Ariel1.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
 			myPackmanImage = new ImageIcon("packman.jpg");
-		} catch(HeadlessException e) {e.printStackTrace();}
-		try {
 			MyFruitImage = new ImageIcon("hamburger.png");
-		} catch(HeadlessException e) {e.printStackTrace();}
+		} catch (IOException e) {
+			e.printStackTrace();}
 	}
 
-	
+
 
 	public void paint(Graphics g)
 	{
 		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
-		for (int i=0; i<packmans.size();i++) {
-			Point3D p= new Point3D (packmans.get(i).getLat(),packmans.get(i).getLon());
-			Point3D xAndy=CoordsToPixel(p);
-			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,50,50, null);
+		for (int i=0; i<game.packmans.size();i++) {
+			Point3D p= new Point3D (game.packmans.get(i).getLat(),game.packmans.get(i).getLon());
+			Point3D xAndy=map.CoordsToPixel(p);
+			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 		}
-		for (int j=0; j<Fruits.size();j++) {
-			g.drawImage(MyFruitImage.getImage(),(int)Fruits.get(j).getLat()-25,(int) Fruits.get(j).getLon()-25,50,50, null);
+		for (int j=0; j<game.Fruits.size();j++) {
+			g.drawImage(MyFruitImage.getImage(),(int)game.Fruits.get(j).getLat()-25,(int) game.Fruits.get(j).getLon()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 
 		}
 		if(x!=-1 && y!=-1)
@@ -125,18 +126,19 @@ public class MainWindow extends JFrame implements MouseListener , ActionListener
 			test=JOptionPane.showInputDialog("Please input packman height: ");
 			Double height=Double.parseDouble(test);
 			Point3D pixel=new Point3D();
-			pixel= PixelToCoords(x, y);
+			pixel= map.PixelToCoords(x, y);
 			packman p =new packman(pixel.x(),pixel.y(),height,speed,Radius);
-			packmans.add(p);
+
+			game.packmans.add(p);
 		}
 		if (PackOrFruit==2) {
 			String test ;
 			test=JOptionPane.showInputDialog("Please input fruit value: ");
-			Double value=Double.parseDouble(test);
+			Double Weight=Double.parseDouble(test);
 			test=JOptionPane.showInputDialog("Please input fruit height: ");
 			Double height=Double.parseDouble(test);
-			Fruit f=new Fruit (value,x,y,height);
-			Fruits.add(f);
+			Fruit f=new Fruit (x,y,height,Weight);
+			game.Fruits.add(f);
 		}
 		repaint();
 	}
@@ -171,33 +173,39 @@ public class MainWindow extends JFrame implements MouseListener , ActionListener
 		if (arg0.getSource()==item2) {
 			PackOrFruit=2;
 		}
+		if (arg0.getSource()==save) {
+			JLabel l = new JLabel("no file selected"); 
+            // create an object of JFileChooser class 
+            JFileChooser j = new JFileChooser("C:\\Users\\orelr\\Desktop"); 
+            j.getSelectedFile();
+            // invoke the showsSaveDialog function to show the save dialog 
+            int r = j.showSaveDialog(null); 
+  
+            // if the user selects a file 
+            if (r == JFileChooser.APPROVE_OPTION) 
+  
+            { 
+                // set the label to the path of the selected file 
+                l.setText(j.getSelectedFile().getAbsolutePath()); 
+            } 
+            // if the user cancelled the operation 
+            else
+                l.setText("the user cancelled the operation"); 
+        } 
+			String output ;
+			output=JOptionPane.showInputDialog("Please input save place: ");
+			game.SaveGame(output);
+		
+		if (arg0.getSource()==load) {
+			JFileChooser j = new JFileChooser("C:\\Users\\orelr\\Desktop"); 
+			j.showOpenDialog(null); 
+			String load ;
+			load=JOptionPane.showInputDialog("Please input load location: ");
+			Game loaded=new Game (load);
+			game=loaded;
+			repaint();
+		}
 	}
-	public Point3D PixelToCoords(int x, int y) {
-		Point3D leftUp = new Point3D(32.105770,  35.202469);
-		Point3D leftDown = new Point3D(32.101899, 35.202469);
-		Point3D RightUp = new Point3D(32.105770 , 35.211588);
-		Point3D RightDown = new Point3D(32.101899, 35.211588);
-		int widthPixel=this.getWidth();
-		int HeightPixel=this.getHeight();
-		double Heightcoords= leftUp.distance3D(leftDown);
-		double widthcoords= RightUp.distance3D(leftUp);
-		Point3D p2=new Point3D(32.105770+(((double)x/HeightPixel)*Heightcoords ), (35.202469+(((double)y/widthPixel)*widthcoords)));
-		System.out.println(p2.toString());
-		return p2;
-	}
-	public Point3D CoordsToPixel(Point3D p) {
-		Point3D leftUp = new Point3D(32.105770,  35.202469);
-		Point3D leftDown = new Point3D(32.101899, 35.202469);
-		Point3D RightUp = new Point3D(32.105770 , 35.211588);
-		Point3D RightDown = new Point3D(32.101899, 35.211588);
-		double x=p.x()-32.105770;
-		double y=p.y()-35.202469;
-		int widthPixel=this.getWidth();
-		int HeightPixel=this.getHeight();
-		double Heightcoords= leftUp.distance3D(leftDown);
-		double widthcoords= RightUp.distance3D(leftUp);
-		Point3D p2=new Point3D((x/Heightcoords)*(double)HeightPixel , (y/widthcoords)*(double)widthPixel);
-		return p2;
-	}
+
 }
 

@@ -1,4 +1,4 @@
-package map;
+package packman;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -6,14 +6,21 @@ import java.util.ArrayList;
 public class Fruit {
 
 	
-	public Fruit(double value, double Lat,double Lon,double Alt ) {
-		this.setValue(value);
+	public Fruit( double Lat,double Lon,double Alt,double Weight ) {
+		this.setWeight(Weight);
 		this.Alt=Alt;
 		this.setLat(Lat);
 		this.setLon(Lon);	
 	}
 	
-	private double value, Alt, Lat, Lon;
+	public Fruit() {
+		Weight=0;
+		Alt=0;
+		Lat=0;
+		Lon=0;
+	}
+
+	private double Weight, Alt, Lat, Lon;
 	int id=0;
 	Graphics Pack; 
 
@@ -22,12 +29,6 @@ public class Fruit {
 	}
 	public void setAlt(double Alt) {
 		this.Alt = Alt;
-	}
-	public double getValue() {
-		return value;
-	}
-	public void setValue(double value) {
-		this.value = value;
 	}
 	public double getLat() {
 		return Lat;
@@ -40,6 +41,14 @@ public class Fruit {
 	}
 	public void setLon(double Lon) {
 		this.Lon = Lon;
+	}
+
+	public double getWeight() {
+		return Weight;
+	}
+
+	public void setWeight(double weight) {
+		Weight = weight;
 	}
 
 }

@@ -1,4 +1,4 @@
-package map;
+package packman;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -14,6 +14,13 @@ public class packman {
 		this.setAlt(Alt);
 		this.setLat(Lat);
 		this.setLon(Lon);	
+	}
+	public packman () {
+		Lat=0;
+		Lon=0;
+		Alt=0;
+		Speed=0;
+		Radius=0;
 	}
 
 	public double getRadius() {

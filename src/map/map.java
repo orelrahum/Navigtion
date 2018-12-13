@@ -23,7 +23,7 @@ import packman.Fruit;
 import packman.packman;
 
 
-public class MainWindow extends JFrame implements MouseListener , ActionListener
+public class map extends JFrame implements MouseListener , ActionListener
 {
 	ArrayList<Fruit> Fruits=new ArrayList<Fruit>() ;
 	ArrayList<packman> packmans=new ArrayList<packman>();
@@ -40,7 +40,7 @@ public class MainWindow extends JFrame implements MouseListener , ActionListener
 	int x = -1;
 	int y = -1;
 
-	public MainWindow() 
+	public map() 
 	{
 		initGUI();		
 		this.addMouseListener(this); 
