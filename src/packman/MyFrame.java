@@ -29,6 +29,7 @@ import packman.packman;
 public class MyFrame extends JFrame implements MouseListener , ActionListener
 {
 	Game game=new Game();
+	map map=new map();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 	Iterator<packman> packmansIT=game.packmans.iterator();
 	public BufferedImage myImage;
@@ -43,7 +44,6 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	private int PackOrFruit=0;
 	int x = -1;
 	int y = -1;
-
 	public MyFrame() 
 	{
 		initGUI();		
@@ -94,11 +94,15 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
 		for (int i=0; i<game.packmans.size();i++) {
 			Point3D p= new Point3D (game.packmans.get(i).getLat(),game.packmans.get(i).getLon());
+			map.HeightPixel=this.getHeight();
+			map.widthPixel=this.getWidth();
 			Point3D xAndy=map.CoordsToPixel(p);
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 		}
 		for (int j=0; j<game.Fruits.size();j++) {
-			g.drawImage(MyFruitImage.getImage(),(int)game.Fruits.get(j).getLat()-25,(int) game.Fruits.get(j).getLon()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
+			Point3D p= new Point3D (game.Fruits.get(j).getLat(),game.Fruits.get(j).getLon());
+			Point3D xAndy=map.CoordsToPixel(p);
+			g.drawImage(MyFruitImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 
 		}
 		if(x!=-1 && y!=-1)
@@ -117,26 +121,67 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		y = arg.getY();
 		if (PackOrFruit==1) {
 			String rad,sp,hei;
-			double Radius,speed,height;
-			rad=JOptionPane.showInputDialog("Please input packman Radius: ");
-			sp=JOptionPane.showInputDialog("Please input packman speed: ");
-			hei=JOptionPane.showInputDialog("Please input packman height: ");
+			double Radius=0,speed=0,height=0;
+			boolean boo=true;
+			while (boo) {
 
-			Radius=Double.parseDouble(rad);
-			speed=Double.parseDouble(sp);
-			height=Double.parseDouble(hei);
-			Point3D pixel=new Point3D();
-			pixel= map.PixelToCoords(x, y);
-			packman p =new packman(pixel.x(),pixel.y(),height,speed,Radius);
+				try {
+					rad=JOptionPane.showInputDialog("Please input packman speed : ");
+					Radius=Integer.parseInt(rad);
+					boo=false;}
+				catch (NumberFormatException e) {
+				}
+			}
+			boo=true;
+			while (boo) {
+				try {
+					sp=JOptionPane.showInputDialog("Please input packman speed: ");
+					speed=Integer.parseInt(sp);
+					boo=false;}
+				catch (NumberFormatException e) {
+				}
+			}
+			boo=true;
+			while (boo) {
+				try {
+					hei=JOptionPane.showInputDialog("Please input packman height: ");
+					height=Integer.parseInt(hei);
+					boo=false;}
+				catch (NumberFormatException e) {
+				}
+			}
+			map.HeightPixel=this.getHeight();
+			map.widthPixel=this.getWidth();
+			Point3D LatLon=map.PixelToCoords(x,y);
+			packman p =new packman(LatLon.x(),LatLon.y(),height,speed,Radius);
 			game.packmans.add(p);
 		}
 		if (PackOrFruit==2) {
 			String test ;
-			test=JOptionPane.showInputDialog("Please input fruit value: ");
-			Double Weight=Double.parseDouble(test);
-			test=JOptionPane.showInputDialog("Please input fruit height: ");
-			Double height=Double.parseDouble(test);
-			Fruit f=new Fruit (x,y,height,Weight);
+			double Weight=0 ;
+			double height=0;
+			boolean boo=true;
+			while (boo) {
+				try {
+					test=JOptionPane.showInputDialog("Please input fruit value: ");
+					Weight=Integer.parseInt(test);
+					boo=false;}
+				catch (NumberFormatException e) {
+				}
+			}
+			boo=true;
+			while (boo) {
+				try {
+					test=JOptionPane.showInputDialog("Please input fruit height: ");
+					height=Integer.parseInt(test);
+					boo=false;}
+				catch (NumberFormatException e) {
+				}
+			}
+			map.HeightPixel=this.getHeight();
+			map.widthPixel=this.getWidth();
+			Point3D LatLon=map.PixelToCoords(x, y);
+			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight);
 			game.Fruits.add(f);
 		}
 		repaint();
@@ -187,6 +232,11 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				game=loaded;
 				repaint();
 			}
+		}
+		if (arg0.getSource()==clear) {
+			game.packmans.clear();
+			game.Fruits.clear();
+			repaint();
 		}
 	}
 
