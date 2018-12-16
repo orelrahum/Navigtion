@@ -47,7 +47,7 @@ public class Game {
 					Lon=Double.parseDouble(AllData[3]);
 					Alt=Double.parseDouble(AllData[4]);
 					Weight=Double.parseDouble(AllData[5]);
-					Fruit f=new Fruit (Weight, Lat,Lon,Alt);
+					Fruit f=new Fruit (Lat,Lon,Alt,Weight);
 					Fruits.add(f);
 				}
 			}

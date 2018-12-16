@@ -92,19 +92,18 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	public void paint(Graphics g)
 	{
 		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
-		for (int i=0; i<game.packmans.size();i++) {
-			Point3D p= new Point3D (game.packmans.get(i).getLat(),game.packmans.get(i).getLon());
-			map.HeightPixel=this.getHeight();
-			map.widthPixel=this.getWidth();
-			Point3D xAndy=map.CoordsToPixel(p);
-			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
-		}
 		for (int j=0; j<game.Fruits.size();j++) {
 			Point3D p= new Point3D (game.Fruits.get(j).getLat(),game.Fruits.get(j).getLon());
-			Point3D xAndy=map.CoordsToPixel(p);
+			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(MyFruitImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 
 		}
+		for (int i=0; i<game.packmans.size();i++) {
+			Point3D p= new Point3D (game.packmans.get(i).getLat(),game.packmans.get(i).getLon());
+			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
+			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
+		}
+
 		if(x!=-1 && y!=-1)
 		{
 			int r = 10;
@@ -126,7 +125,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			while (boo) {
 
 				try {
-					rad=JOptionPane.showInputDialog("Please input packman speed : ");
+					rad=JOptionPane.showInputDialog("Please input packman Radius : ");
 					Radius=Integer.parseInt(rad);
 					boo=false;}
 				catch (NumberFormatException e) {
@@ -150,9 +149,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				catch (NumberFormatException e) {
 				}
 			}
-			map.HeightPixel=this.getHeight();
-			map.widthPixel=this.getWidth();
-			Point3D LatLon=map.PixelToCoords(x,y);
+			Point3D LatLon=map.PixelToCoords(x,y,this.getHeight(),this.getWidth());
 			packman p =new packman(LatLon.x(),LatLon.y(),height,speed,Radius);
 			game.packmans.add(p);
 		}
@@ -178,9 +175,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				catch (NumberFormatException e) {
 				}
 			}
-			map.HeightPixel=this.getHeight();
-			map.widthPixel=this.getWidth();
-			Point3D LatLon=map.PixelToCoords(x, y);
+			Point3D LatLon=map.PixelToCoords(x, y,this.getHeight(),this.getWidth());
 			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight);
 			game.Fruits.add(f);
 		}
