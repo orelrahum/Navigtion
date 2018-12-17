@@ -14,6 +14,12 @@ public class Fruit {
 		this.setAlt(Alt);
 		this.setWeight(Weight);
 	}
+	public Fruit( Point3D Point,double Lon,double Alt,double Weight ) {
+		this.setLat(Point.x());
+		this.setLon(Point.y());
+		this.setAlt(Point.z());
+		this.setWeight(Weight);
+	}
 	public Fruit() {
 		Lat=0;
 		Lon=0;

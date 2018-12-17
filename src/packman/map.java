@@ -12,16 +12,16 @@ public class map {
 	public static Point3D PixelToCoords(Point3D p, int HeightPixel,int widthPixel ) {
 		double Heightcoords=32.105770-32.101899;
 		double widthcoords=35.211588-35.202469;
-		double lat=(32.105770-((double)p.get_y()/HeightPixel)*Heightcoords);
-		double lon=35.202469+(((double)p.get_x()/widthPixel)*widthcoords);
+		double lat=(32.105770-((double)p.y()/HeightPixel)*Heightcoords);
+		double lon=35.202469+(((double)p.x()/widthPixel)*widthcoords);
 		Point3D p2=new Point3D(lat,lon);
 		return p2;
 	}
 	public static Point3D CoordsToPixel(Point3D p, int HeightPixel,int widthPixel ) {
 		double Heightcoords=32.105770-32.101899;
 		double widthcoords=35.211588-35.202469;
-		double lat_temp=p.get_x()-32.105770;
-		double lon_temp=p.get_y()-35.202469;
+		double lat_temp=p.x()-32.105770;
+		double lon_temp=p.y()-35.202469;
 		double x=(lon_temp/widthcoords*(double)widthPixel);
 		double y=((lat_temp/Heightcoords)*-(double)HeightPixel);
 		Point3D p2=new Point3D(x ,y);

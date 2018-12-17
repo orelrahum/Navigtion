@@ -15,6 +15,13 @@ public class packman {
 		this.setSpeed(Speed);
 		this.setRadius(Radius);
 	}
+	public packman(Point3D Point,double Speed , double Radius) {
+		this.setLat(Point.x());
+		this.setLon(Point.y());
+		this.setAlt(Point.z());
+		this.setSpeed(Speed);
+		this.setRadius(Radius);
+	}
 	public packman () {
 		Lat=0;
 		Lon=0;

@@ -81,8 +81,7 @@ public class Point3D implements Geom_element, Serializable
 		lon=(gps1.y()-this.y())*Math.PI/180;
 		lat=Math.sin(lat)*R;
 		lon=Math.sin(lon)*R*lonNorm;
-		dis=Math.pow(Math.pow(lat, 2)*Math.pow(lon, 2), 0.5);
-		
+		dis=Math.pow(Math.pow(lat, 2)*Math.pow(lon, 2), 0.5);	
 		return dis;
 	}	
 
@@ -102,9 +101,9 @@ public class Point3D implements Geom_element, Serializable
     public String toFile1()  {return "Point3D "+_x+" "+_y+" "+_z;}
     
     public void vector (Point3D point) {
-    	_x=_x-point.get_x();
-    	_y=_y-point.get_y();
-    	_z=_z-point.get_z();
+    	_x=_x-point.x();
+    	_y=_y-point.y();
+    	_z=_z-point.z();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -272,28 +271,4 @@ public final static int DOWN = 6, UP = 7;
 		this._y=R*Math.cos(lat)*Math.sin(lon);
 		this._z=R*Math.sin(lat);
 	}
-
-	public double get_y() {
-		return _y;
-	}
-
-	public void set_y(double _y) {
-		this._y = _y;
-	}
-
-	public double get_x() {
-		return _x;
-	}
-
-	public void set_x(double _x) {
-		this._x = _x;
-	}
-
-	public double get_z() {
-		return _z;
-	}
-
-	public void set_z(double _z) {
-		this._z = _z;
-	} 
 }
