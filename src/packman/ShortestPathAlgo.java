@@ -14,15 +14,18 @@ public class ShortestPathAlgo {
 	public ShortestPathAlgo(Game game) {
 		Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 		Iterator<packman> packmansIT=game.packmans.iterator();
-		while (FruitsIT.hasNext()) {
+		while (FruitsIT.hasNext()){
+			packmansIT=game.packmans.iterator();
 			Fruit f=FruitsIT.next();
 			Point3D pointF=new Point3D(f.getLat(),f.getLon(),f.getAlt());
-			double dis=534343545;
-			double distemp=0;
-			packman minPac=null;
+			packman p=packmansIT.next();
+			Point3D pointP=new Point3D(p.getLat(),p.getLon(),p.getAlt());
+			double dis=Path.dist(pointP, pointF)/p.getSpeed();
+			double distemp=dis;
+			packman minPac=p;
 			while(packmansIT.hasNext()) {
-				packman p=packmansIT.next();
-				Point3D pointP=new Point3D(p.getLat(),p.getLon(),p.getAlt());
+				p=packmansIT.next();
+				pointP=new Point3D(p.getLat(),p.getLon(),p.getAlt());
 				distemp=Path.dist(pointP, pointF)/p.getSpeed();
 				if (distemp<dis) {
 					dis=distemp;
