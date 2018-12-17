@@ -101,16 +101,26 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			Point3D p=game.packmans.get(i).getPoint();
 			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
-		
+			Iterator<Point3D> pathIT=game.packmans.get(i).pathPack.path.iterator();
+
+			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
+				Point3D PathXY=new Point3D();
+				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
+				Point3D PathXY2=new Point3D();
+				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
+				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
+
+			}
+
 		}
-//need to check if we need it
-//		if(x!=-1 && y!=-1)
-//		{
-//			int r = 10;
-//			x = x - (r / 2);
-//			y = y - (r / 2);
-//			g.fillOval(x, y, r, r);
-//		}
+		//need to check if we need it
+		//		if(x!=-1 && y!=-1)
+		//		{
+		//			int r = 10;
+		//			x = x - (r / 2);
+		//			y = y - (r / 2);
+		//			g.fillOval(x, y, r, r);
+		//		}
 	}
 
 	@Override
@@ -234,7 +244,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			game.Fruits.clear();
 			repaint();
 		}
-		
+
 		if (arg0.getSource()==run) {
 			ShortestPathAlgo Algo= new ShortestPathAlgo(game);
 			repaint();

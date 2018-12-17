@@ -9,6 +9,7 @@ import Geom.Point3D;
 public class packman {
 	private double Radius,Speed, Alt ,Lat , Lon ,Weight;
 	public Path pathPack;
+	private Point3D Point=new Point3D();
 	public packman(double Lat,double Lon, double Alt ,double Speed , double Radius) {
 		this.setLat(Lat);
 		this.setLon(Lon);
@@ -78,10 +79,14 @@ public class packman {
 		Point3D point=new Point3D (Lat,Lon,Alt);
 		return point;
 	}
+	
 	public double getWeight() {
 		return Weight;
 	}
 	public void setWeight(double weight) {
 		Weight = weight;
+	}
+	public void setPoint(Point3D point) {
+		Point = point;
 	}
 }

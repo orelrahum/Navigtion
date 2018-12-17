@@ -32,7 +32,8 @@ public class ShortestPathAlgo {
 				Point3D normal=Path.vector(PointP, PointF);
 				ArrayList<Point3D> path=new ArrayList<Point3D>() ;
 				path=eat(PointP,PointF,packC,normal,game.packmans.get(pack).getRadius());
-				game.packmans.get(i).pathPack.addAll(path);
+				game.packmans.get(pack).pathPack.addAll(path);
+				game.packmans.get(pack).setPoint(path.get(path.size()-1));
 				double Weight =game.Fruits.get(i).getWeight()+game.packmans.get(pack).getWeight();
 				game.packmans.get(i).setWeight(Weight);
 				game.Fruits.remove(i);
@@ -49,8 +50,6 @@ public class ShortestPathAlgo {
 	public ArrayList eat(Point3D p,Point3D f,Circle C,Point3D normal,double radius) {
 		ArrayList<Point3D> path=new ArrayList<Point3D>() ;
 		double dis=C.distance3D(f);
-		System.out.println(dis);
-		System.out.println(normal);
 		while(dis!=0) {
 			p.add(normal);
 			Circle Ctemp=new Circle (p,radius);
