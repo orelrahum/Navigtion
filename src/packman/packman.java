@@ -7,13 +7,17 @@ import GIS.GIS_element;
 import Geom.Point3D;
 
 public class packman {
-	private double Radius,Speed, Alt ,Lat , Lon;
+	private double Radius,Speed, Alt ,Lat , Lon ,Weight;
+	public Path pathPack;
 	public packman(double Lat,double Lon, double Alt ,double Speed , double Radius) {
 		this.setLat(Lat);
 		this.setLon(Lon);
 		this.setAlt(Alt);
 		this.setSpeed(Speed);
 		this.setRadius(Radius);
+		Point3D temp=new Point3D (Lat,Lon,Alt);
+		pathPack=new Path(temp);
+		Weight=0;
 	}
 	public packman(Point3D Point,double Speed , double Radius) {
 		this.setLat(Point.x());
@@ -21,6 +25,7 @@ public class packman {
 		this.setAlt(Point.z());
 		this.setSpeed(Speed);
 		this.setRadius(Radius);
+		pathPack=new Path(Point);
 	}
 	public packman () {
 		Lat=0;
@@ -72,5 +77,11 @@ public class packman {
 	public Point3D getPoint() {
 		Point3D point=new Point3D (Lat,Lon,Alt);
 		return point;
+	}
+	public double getWeight() {
+		return Weight;
+	}
+	public void setWeight(double weight) {
+		Weight = weight;
 	}
 }

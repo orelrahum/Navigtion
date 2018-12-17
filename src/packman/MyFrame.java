@@ -101,6 +101,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			Point3D p=game.packmans.get(i).getPoint();
 			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
+		
 		}
 //need to check if we need it
 //		if(x!=-1 && y!=-1)

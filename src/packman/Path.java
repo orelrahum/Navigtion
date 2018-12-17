@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import Geom.Point3D;
 
 public class Path {
-	private double Score=0;
 	ArrayList<Point3D> path=new ArrayList<Point3D>();
 	Path(){
 	}
@@ -18,18 +17,14 @@ public class Path {
 	public static Point3D vector(Point3D point1,Point3D point2) {
 		Point3D vector = new Point3D(point2);
 		vector.vector(point1);
-//		vector.set_x(vector.get_x()/100);
-//		vector.set_y(vector.get_y()/100);
-//		vector.set_z(vector.get_z()/100);
-//		double x=vector.get_x()*vector.get_x();
-//		double y=vector.get_y()*vector.get_y();
-//		double z=vector.get_z()*vector.get_z();
-//		double det=Math.sqrt(x+y+z);
-//		Point3D normal=new Point3D(vector.get_x()/det, vector.get_y()/det, vector.get_z()/det);
-		return vector;
+		Point3D vec=new Point3D(vector.x()/100,vector.y()/100,vector.z());
+		return vec;
 	}
 	public void add(Point3D p) {
 		path.add(p);
+	}
+	public void addAll (ArrayList p) {
+		path.addAll(p);
 	}
 }
 
