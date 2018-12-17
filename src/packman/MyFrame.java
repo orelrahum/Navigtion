@@ -29,7 +29,6 @@ import packman.packman;
 public class MyFrame extends JFrame implements MouseListener , ActionListener
 {
 	Game game=new Game();
-	map map=new map();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 	Iterator<packman> packmansIT=game.packmans.iterator();
 	public BufferedImage myImage;
@@ -93,24 +92,24 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	{
 		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
 		for (int j=0; j<game.Fruits.size();j++) {
-			Point3D p= new Point3D (game.Fruits.get(j).getLat(),game.Fruits.get(j).getLon());
-			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
+			Point3D f=game.Fruits.get(j).getPoint();
+			Point3D xAndy=map.CoordsToPixel(f,this.getHeight(),this.getWidth());
 			g.drawImage(MyFruitImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 
 		}
 		for (int i=0; i<game.packmans.size();i++) {
-			Point3D p= new Point3D (game.packmans.get(i).getLat(),game.packmans.get(i).getLon());
+			Point3D p=game.packmans.get(i).getPoint();
 			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 		}
-
-		if(x!=-1 && y!=-1)
-		{
-			int r = 10;
-			x = x - (r / 2);
-			y = y - (r / 2);
-			g.fillOval(x, y, r, r);
-		}
+//need to check if we need it
+//		if(x!=-1 && y!=-1)
+//		{
+//			int r = 10;
+//			x = x - (r / 2);
+//			y = y - (r / 2);
+//			g.fillOval(x, y, r, r);
+//		}
 	}
 
 	@Override
@@ -123,7 +122,6 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			double Radius=0,speed=0,height=0;
 			boolean boo=true;
 			while (boo) {
-
 				try {
 					rad=JOptionPane.showInputDialog("Please input packman Radius : ");
 					Radius=Integer.parseInt(rad);

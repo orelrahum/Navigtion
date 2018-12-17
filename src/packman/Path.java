@@ -13,7 +13,7 @@ public class Path {
 		this.path.add(point);
 	}
 	public static double dist(Point3D point1,Point3D point2) {
-		return point1.distance3D(point2);
+		return point1.distance3dCoords(point2);
 	}
 	public static Point3D vector(Point3D point1,Point3D point2) {
 		Point3D vector = new Point3D(point2);
