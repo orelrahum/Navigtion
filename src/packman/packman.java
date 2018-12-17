@@ -4,16 +4,16 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import GIS.GIS_element;
+import Geom.Point3D;
 
 public class packman {
 	private double Radius,Speed, Alt ,Lat , Lon;
-
 	public packman(double Lat,double Lon, double Alt ,double Speed , double Radius) {
-		this.setRadius(Radius);
-		this.setSpeed(Speed);
-		this.setAlt(Alt);
 		this.setLat(Lat);
-		this.setLon(Lon);	
+		this.setLon(Lon);
+		this.setAlt(Alt);
+		this.setSpeed(Speed);
+		this.setRadius(Radius);
 	}
 	public packman () {
 		Lat=0;
@@ -27,7 +27,7 @@ public class packman {
 		return Radius;
 	}
 
-	public void setRadius(double radius) {
+	private void setRadius(double radius) {
 		Radius = radius;
 	}
 
@@ -35,7 +35,7 @@ public class packman {
 		return Speed;
 	}
 
-	public void setSpeed(double speed) {
+	private void setSpeed(double speed) {
 		Speed = speed;
 	}
 
@@ -43,7 +43,7 @@ public class packman {
 		return Alt;
 	}
 
-	public void setAlt(double alt) {
+	private void setAlt(double alt) {
 		Alt = alt;
 	}
 
@@ -51,7 +51,7 @@ public class packman {
 		return Lat;
 	}
 
-	public void setLat(double lat) {
+	private void setLat(double lat) {
 		Lat = lat;
 	}
 
@@ -59,7 +59,11 @@ public class packman {
 		return Lon;
 	}
 
-	public void setLon(double lon) {
+	private void setLon(double lon) {
 		Lon = lon;
+	}
+	public Point3D getPoint() {
+		Point3D point=new Point3D (Lat,Lon,Alt);
+		return point;
 	}
 }
