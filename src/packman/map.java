@@ -15,15 +15,15 @@ public class map {
 	public map () {
 	}
 	
-	public Point3D PixelToCoords(int x, int y , int HeightPixel,int widthPixel ) {
-		double lat=(32.105770-((double)y/HeightPixel)*Heightcoords);
-		double lon=35.202469+(((double)x/widthPixel)*widthcoords);
+	public Point3D PixelToCoords(Point3D p, int HeightPixel,int widthPixel ) {
+		double lat=(32.105770-((double)p.get_y()/HeightPixel)*Heightcoords);
+		double lon=35.202469+(((double)p.get_x()/widthPixel)*widthcoords);
 		Point3D p2=new Point3D(lat,lon);
 		return p2;
 	}
 	public Point3D CoordsToPixel(Point3D p, int HeightPixel,int widthPixel ) {
-		double lat_temp=p._x-32.105770;
-		double lon_temp=p._y-35.202469;
+		double lat_temp=p.get_x()-32.105770;
+		double lon_temp=p.get_y()-35.202469;
 		double x=(lon_temp/widthcoords*(double)widthPixel);
 		double y=((lat_temp/Heightcoords)*-(double)HeightPixel);
 		Point3D p2=new Point3D(x ,y);

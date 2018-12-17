@@ -149,7 +149,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				catch (NumberFormatException e) {
 				}
 			}
-			Point3D LatLon=map.PixelToCoords(x,y,this.getHeight(),this.getWidth());
+			Point3D xANDy = new Point3D (x,y);
+			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
 			packman p =new packman(LatLon.x(),LatLon.y(),height,speed,Radius);
 			game.packmans.add(p);
 		}
@@ -175,7 +176,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				catch (NumberFormatException e) {
 				}
 			}
-			Point3D LatLon=map.PixelToCoords(x, y,this.getHeight(),this.getWidth());
+			Point3D xANDy = new Point3D (x,y);
+			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
 			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight);
 			game.Fruits.add(f);
 		}
@@ -231,6 +233,11 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		if (arg0.getSource()==clear) {
 			game.packmans.clear();
 			game.Fruits.clear();
+			repaint();
+		}
+		
+		if (arg0.getSource()==run) {
+			ShortestPathAlgo Algo= new ShortestPathAlgo(game);
 			repaint();
 		}
 	}

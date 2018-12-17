@@ -3,13 +3,14 @@ package Geom;
 import java.io.Serializable;
 
 public class Point3D implements Geom_element, Serializable 
-{
+{	
+	long R=6371000;
 	
 	/**
 	 * This class represents a 3D point in space.
 	 */
 	private static final long serialVersionUID = 1L;
-	public double _x,_y,_z;
+	private double _x,_y,_z;
 	public Point3D() {
 		_x=0;
 		_y=0;
@@ -72,6 +73,18 @@ public class Point3D implements Geom_element, Serializable
 		double t = dx*dx+dy*dy+dz*dz;
 		return Math.sqrt(t);
 	}
+	public double distance3dCoords(Point3D gps1) {
+		// TODO Auto-generated method stub
+		double lat,lon,lonNorm,dis;
+		lonNorm=Math.cos(this.x()*Math.PI/180);
+		lat=(gps1.x()-this.x())*Math.PI/180;
+		lon=(gps1.y()-this.y())*Math.PI/180;
+		lat=Math.sin(lat)*R;
+		lon=Math.sin(lon)*R*lonNorm;
+		dis=Math.pow(Math.pow(lat, 2)*Math.pow(lon, 2), 0.5);
+		
+		return dis;
+	}	
 
 	public boolean equals(Point3D p2)
 	{
@@ -87,6 +100,12 @@ public class Point3D implements Geom_element, Serializable
     public String toFile()  {return _x+","+_y+","+_z;}
     
     public String toFile1()  {return "Point3D "+_x+" "+_y+" "+_z;}
+    
+    public void vector (Point3D point) {
+    	_x=_x-point.get_x();
+    	_y=_y-point.get_y();
+    	_z=_z-point.get_z();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -252,5 +271,29 @@ public final static int DOWN = 6, UP = 7;
 		this._x=R*Math.cos(lat)*Math.cos(lon);
 		this._y=R*Math.cos(lat)*Math.sin(lon);
 		this._z=R*Math.sin(lat);
+	}
+
+	public double get_y() {
+		return _y;
+	}
+
+	public void set_y(double _y) {
+		this._y = _y;
+	}
+
+	public double get_x() {
+		return _x;
+	}
+
+	public void set_x(double _x) {
+		this._x = _x;
+	}
+
+	public double get_z() {
+		return _z;
+	}
+
+	public void set_z(double _z) {
+		this._z = _z;
 	} 
 }
