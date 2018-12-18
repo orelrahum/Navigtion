@@ -97,6 +97,7 @@ public class Game {
 			sb.append(f.getAlt() + ",");
 			sb.append(f.getWeight() + ",\n");
 			counterfruit++;
+			
 		}
 		pw.write(sb.toString());
 		pw.close();

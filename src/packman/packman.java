@@ -87,6 +87,9 @@ public class packman {
 		Weight = weight;
 	}
 	public void setPoint(Point3D point) {
-		Point = point;
+		this.Point	= point;
+		this.setLat(Point.x());
+		this.setLon(Point.y());
+		this.setAlt(Point.z());
 	}
 }

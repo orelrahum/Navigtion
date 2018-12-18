@@ -10,6 +10,7 @@ import Geom.Circle;
 import Geom.Point3D;
 
 public class ShortestPathAlgo {
+	Thread time = new Thread();
 
 	public ShortestPathAlgo(Game game) {
 		double dis=Double.MAX_VALUE;
@@ -33,7 +34,11 @@ public class ShortestPathAlgo {
 				ArrayList<Point3D> path=new ArrayList<Point3D>() ;
 				path=eat(PointP,PointF,packC,normal,game.packmans.get(pack).getRadius());
 				game.packmans.get(pack).pathPack.addAll(path);
-				game.packmans.get(pack).setPoint(path.get(path.size()-1));
+				int meters=0;
+				for(int index=0;index<path.size();index++) {
+					game.packmans.get(pack).setPoint(path.get(index));
+				}
+			//	game.packmans.get(pack).setPoint(path.get(path.size()-1));
 				double Weight =game.Fruits.get(i).getWeight()+game.packmans.get(pack).getWeight();
 				game.packmans.get(i).setWeight(Weight);
 				game.Fruits.remove(i);
@@ -42,11 +47,7 @@ public class ShortestPathAlgo {
 				dis=Double.MAX_VALUE;
 			}
 		}
-
 	}
-
-
-
 	public ArrayList eat(Point3D p,Point3D f,Circle C,Point3D normal,double radius) {
 		ArrayList<Point3D> path=new ArrayList<Point3D>() ;
 		double dis=C.distance3D(f);

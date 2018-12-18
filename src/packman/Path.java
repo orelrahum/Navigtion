@@ -1,15 +1,13 @@
 package packman;
-
-import java.util.ArrayList;
-
 import Geom.Point3D;
-
+import java.util.*;
 public class Path {
 	ArrayList<Point3D> path=new ArrayList<Point3D>();
 	Path(){
 	}
 	Path(Point3D point){
 		this.path.add(point);
+		
 	}
 	public static double dist(Point3D point1,Point3D point2) {
 		return point1.distance3dCoords(point2);
@@ -23,6 +21,7 @@ public class Path {
 	public void add(Point3D p) {
 		path.add(p);
 	}
+
 	public void addAll (ArrayList p) {
 		path.addAll(p);
 	}
