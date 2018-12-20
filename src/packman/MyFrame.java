@@ -31,6 +31,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	Game game=new Game();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 	Iterator<packman> packmansIT=game.packmans.iterator();
+	private int IDfruit=1;
+	private int IDpackman=1;
 	public BufferedImage myImage;
 	ImageIcon MyFruitImage;
 	ImageIcon myPackmanImage;
@@ -160,7 +162,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			}
 			Point3D xANDy = new Point3D (x,y);
 			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
-			packman p =new packman(LatLon.x(),LatLon.y(),height,speed,Radius);
+			packman p =new packman(LatLon.x(),LatLon.y(),height,speed,Radius,IDpackman);
+			IDpackman++;
 			game.packmans.add(p);
 		}
 		if (PackOrFruit==2) {
@@ -187,7 +190,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			}
 			Point3D xANDy = new Point3D (x,y);
 			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
-			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight);
+			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight,IDfruit);
+			IDfruit++;
 			game.Fruits.add(f);
 		}
 		repaint();

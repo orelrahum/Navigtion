@@ -8,17 +8,21 @@ import Geom.Point3D;
 public class Fruit {
 
 	private double Weight, Alt, Lat, Lon;
-	public Fruit( double Lat,double Lon,double Alt,double Weight ) {
+	private int ID;
+	public Fruit( double Lat,double Lon,double Alt,double Weight,int ID ) {
 		this.setLat(Lat);
 		this.setLon(Lon);
 		this.setAlt(Alt);
 		this.setWeight(Weight);
+		this.ID=ID;
 	}
-	public Fruit( Point3D Point,double Lon,double Alt,double Weight ) {
+	public Fruit( Point3D Point,double Lon,double Alt,double Weight,int ID) {
 		this.setLat(Point.x());
 		this.setLon(Point.y());
 		this.setAlt(Point.z());
 		this.setWeight(Weight);
+		this.ID=ID;
+
 	}
 	public Fruit() {
 		Lat=0;
@@ -59,6 +63,10 @@ public class Fruit {
 		Point3D point=new Point3D (Lat,Lon,Alt);
 		return point;
 	}
+	public int GetID() {
+		return ID;
+	}
+
 
 }
 

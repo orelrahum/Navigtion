@@ -17,7 +17,8 @@ import java.io.PrintWriter;
 public class Game {
 	ArrayList<Fruit> Fruits=new ArrayList<Fruit>() ;
 	ArrayList<packman> packmans=new ArrayList<packman>();
-	double ID,Lat,Lon,Alt,Speed,Radius,Weight;
+	double Lat,Lon,Alt,Speed,Radius,Weight;
+	int ID;
 	public Game() {
 	}
 	public Game (String LoadGame) {
@@ -32,22 +33,22 @@ public class Game {
 			{
 				String[] AllData = line.split(cvsSplitBy);
 				if (AllData[0].equals("P")) {
-					ID=Double.parseDouble(AllData[1]);
+					ID=Integer.parseInt(AllData[1]);
 					Lat=Double.parseDouble(AllData[2]);
 					Lon=Double.parseDouble(AllData[3]);
 					Alt=Double.parseDouble(AllData[4]);
 					Speed=Double.parseDouble(AllData[5]);
 					Radius=Double.parseDouble(AllData[6]);
-					packman p=new packman (Lat,Lon,Alt,Speed,Radius);
+					packman p=new packman (Lat,Lon,Alt,Speed,Radius,ID);
 					packmans.add(p);
 				}
 				if (AllData[0].equals("F")) {
-					ID=Double.parseDouble(AllData[1]);
+					ID=Integer.parseInt(AllData[1]);
 					Lat=Double.parseDouble(AllData[2]);
 					Lon=Double.parseDouble(AllData[3]);
 					Alt=Double.parseDouble(AllData[4]);
 					Weight=Double.parseDouble(AllData[5]);
-					Fruit f=new Fruit (Lat,Lon,Alt,Weight);
+					Fruit f=new Fruit (Lat,Lon,Alt,Weight,ID);
 					Fruits.add(f);
 				}
 			}
