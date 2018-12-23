@@ -111,18 +111,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				Point3D PathXY2=new Point3D();
 				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
 				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
-
 			}
-
 		}
-		//need to check if we need it
-		//		if(x!=-1 && y!=-1)
-		//		{
-		//			int r = 10;
-		//			x = x - (r / 2);
-		//			y = y - (r / 2);
-		//			g.fillOval(x, y, r, r);
-		//		}
 	}
 
 	@Override
