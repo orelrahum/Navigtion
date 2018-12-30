@@ -21,6 +21,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import Coords.MyCoords;
 import Geom.Point3D;
 import packman.Fruit;
 import packman.packman;
@@ -28,6 +29,7 @@ import packman.packman;
 
 public class MyFrame extends JFrame implements MouseListener , ActionListener
 {
+	private boolean ans=false;
 	Game game=new Game();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 	Iterator<packman> packmansIT=game.packmans.iterator();
@@ -43,8 +45,6 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	private MenuItem run;
 	private MenuItem clear;
 	private int PackOrFruit=0;
-	int x = -1;
-	int y = -1;
 	public MyFrame() 
 	{
 		initGUI();		
@@ -105,21 +105,48 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 			Iterator<Point3D> pathIT=game.packmans.get(i).pathPack.path.iterator();
 
-			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
-				Point3D PathXY=new Point3D();
-				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
-				Point3D PathXY2=new Point3D();
-				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
-				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
+			//			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
+			//				Point3D PathXY=new Point3D();
+			//				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
+			//				Point3D PathXY2=new Point3D();
+			//				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
+			//				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
+			//			}
+			if (ans) {
+				ans=false;
+				Thread t=new Thread()
+				{
+					public void run()
+					{
+						MyCoords mc=new MyCoords();
+						int count=getmaxpath(game.packmans);
+						for(int i=0;i<count;i++) {
+							for(int j=0;j<game.packmans.size();j++) {
+								for(int k=0;k<game.Fruits.size();k++) {
+									if(mc.distance3d(game.packmans.get(j).getPoint(),game.Fruits.get(k).getPoint())<=game.packmans.get(j).getRadius())
+										game.Fruits.remove(k);
+									try {
+										game.packmans.get(j).setPoint(game.packmans.get(j).getPath().path.get(i));
+									}catch(IndexOutOfBoundsException e) {}
+								}
+								repaint();
+								try {
+									Thread.sleep(10);
+								}catch(Exception e) {}
+							}
+						}
+					}
+				};
+				t.start();
+				repaint();
 			}
 		}
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent arg) {
 		System.out.println("("+ arg.getX() + "," + arg.getY() +")");
-		x = arg.getX();
-		y = arg.getY();
+		int x = arg.getX();
+		int y = arg.getY();
 		if (PackOrFruit==1) {
 			String rad,sp,hei;
 			double Radius=0,speed=0,height=0;
@@ -193,20 +220,14 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -242,8 +263,16 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		if (arg0.getSource()==run) {
 			ShortestPathAlgo Algo= new ShortestPathAlgo(game);
 			repaint();
+			ans=true;
 		}
 	}
-
+	public int getmaxpath(ArrayList<packman>arr) {
+		int max=0;
+		for(int i=0;i<arr.size();i++) {
+			if(arr.get(i).getPath().path.size()>max)
+				max=arr.get(i).getPath().path.size();
+		}
+		return max;
+	}
 }
 

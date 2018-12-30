@@ -14,10 +14,10 @@ public class Path{
 	public static double dist(Point3D point1,Point3D point2) {
 		return point1.distance3dCoords(point2);
 	}
-	public static Point3D vector(Point3D point1,Point3D point2) {
+	public static Point3D vector(Point3D point1,Point3D point2,double  speed) {
 		Point3D vector = new Point3D(point2);
 		vector.vector(point1);
-		Point3D vec=new Point3D(vector.x()/100,vector.y()/100,vector.z());
+		Point3D vec=new Point3D((vector.x()/100)*speed,(vector.y()/100)*speed,vector.z());
 		return vec;
 	}
 	public void add(Point3D p) {
