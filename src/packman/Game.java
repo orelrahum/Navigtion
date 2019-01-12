@@ -17,6 +17,9 @@ import java.io.PrintWriter;
 public class Game {
 	ArrayList<Fruit> Fruits=new ArrayList<Fruit>() ;
 	ArrayList<packman> packmans=new ArrayList<packman>();
+	ArrayList<Box> boxes=new ArrayList<Box>();
+	ArrayList<Ghost> Ghosts=new ArrayList<Ghost>();
+	Player M;
 	double Lat,Lon,Alt,Speed,Radius,Weight;
 	int ID;
 	public Game() {

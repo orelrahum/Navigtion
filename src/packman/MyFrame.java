@@ -38,13 +38,15 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	public BufferedImage myImage;
 	ImageIcon MyFruitImage;
 	ImageIcon myPackmanImage;
+	ImageIcon myPlayerImage;
+	private MenuItem Player;
 	private MenuItem packman;
 	private MenuItem Fruit;
 	private MenuItem save;
 	private MenuItem load;
 	private MenuItem run;
 	private MenuItem clear;
-	private int PackOrFruit=0;
+	private int PackOrFruitOrPlayer=0;
 	public MyFrame() 
 	{
 		initGUI();		
@@ -55,12 +57,15 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	{
 		MenuBar menuBar = new MenuBar();
 		Menu menu = new Menu("input"); 
+		Player=new MenuItem("Player");
 		packman = new MenuItem("packman");
 		Fruit = new MenuItem("fruit");
+		Player.addActionListener(this);
 		packman.addActionListener(this);
 		Fruit.addActionListener(this);
 
 		menuBar.add(menu);
+		menu.add(Player);
 		menu.add(packman);
 		menu.add(Fruit);
 		Menu file = new Menu("file"); 
@@ -84,6 +89,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			myImage = ImageIO.read(new File("Ariel1.png"));
 			myPackmanImage = new ImageIcon("packman.jpg");
 			MyFruitImage = new ImageIcon("hamburger.png");
+			myPlayerImage=new ImageIcon("Player.JPG");
 		} catch (IOException e) {
 			e.printStackTrace();}
 	}
@@ -103,51 +109,57 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			Point3D p=game.packmans.get(i).getPoint();
 			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
-			Iterator<Point3D> pathIT=game.packmans.get(i).pathPack.path.iterator();
+			Iterator<Point3D> pathIT=game.packmans.get(i).pathPack.path.iterator();}
 
-			//			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
-			//				Point3D PathXY=new Point3D();
-			//				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
-			//				Point3D PathXY2=new Point3D();
-			//				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
-			//				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
-			//			}
-			if (ans) {
-				ans=false;
-				Thread t=new Thread()
+		//			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
+		//				Point3D PathXY=new Point3D();
+		//				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
+		//				Point3D PathXY2=new Point3D();
+		//				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
+		//				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
+		//			}
+		if (game.M!=null) {
+			Point3D p=game.M.getPoint();
+			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
+			g.drawImage(myPlayerImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
+		}
+
+		if (ans) {
+			ans=false;
+			Thread t=new Thread()
+			{
+				public void run()
 				{
-					public void run()
-					{
-						MyCoords mc=new MyCoords();
-						int count=getmaxpath(game.packmans);
-						for(int i=0;i<count;i++) {
-							for(int j=0;j<game.packmans.size();j++) {
-								for(int k=0;k<game.Fruits.size();k++) {
-									if(mc.distance3d(game.packmans.get(j).getPoint(),game.Fruits.get(k).getPoint())<=game.packmans.get(j).getRadius())
-										game.Fruits.remove(k);
-									try {
-										game.packmans.get(j).setPoint(game.packmans.get(j).getPath().path.get(i));
-									}catch(IndexOutOfBoundsException e) {}
-								}
-								repaint();
+					MyCoords mc=new MyCoords();
+					int count=getmaxpath(game.packmans);
+					for(int i=0;i<count;i++) {
+						for(int j=0;j<game.packmans.size();j++) {
+							for(int k=0;k<game.Fruits.size();k++) {
+								if(mc.distance3d(game.packmans.get(j).getPoint(),game.Fruits.get(k).getPoint())<=game.packmans.get(j).getRadius())
+									game.Fruits.remove(k);
 								try {
-									Thread.sleep(10);
-								}catch(Exception e) {}
+									game.packmans.get(j).setPoint(game.packmans.get(j).getPath().path.get(i));
+								}catch(IndexOutOfBoundsException e) {}
 							}
+							repaint();
+							try {
+								Thread.sleep(10);
+							}catch(Exception e) {}
 						}
 					}
-				};
-				t.start();
-				repaint();
-			}
+				}
+			};
+			t.start();
+			repaint();
 		}
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent arg) {
 		System.out.println("("+ arg.getX() + "," + arg.getY() +")");
 		int x = arg.getX();
 		int y = arg.getY();
-		if (PackOrFruit==1) {
+		if (PackOrFruitOrPlayer==1) {
 			String rad,sp,hei;
 			double Radius=0,speed=0,height=0;
 			boolean boo=true;
@@ -183,7 +195,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			IDpackman++;
 			game.packmans.add(p);
 		}
-		if (PackOrFruit==2) {
+		if (PackOrFruitOrPlayer==2) {
 			String test ;
 			double Weight=0 ;
 			double height=0;
@@ -205,11 +217,19 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 				catch (NumberFormatException e) {
 				}
 			}
+
 			Point3D xANDy = new Point3D (x,y);
 			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
 			Fruit f=new Fruit (LatLon.x(),LatLon.y(),height,Weight,IDfruit);
 			IDfruit++;
 			game.Fruits.add(f);
+		}
+		if (PackOrFruitOrPlayer==3) {
+			Point3D xANDy = new Point3D (x,y);
+			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
+			double Speed=2 ;
+			game.M= new Player (LatLon,Speed);
+			System.out.println(43242);
 		}
 		repaint();
 	}
@@ -233,10 +253,13 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource()==packman) {
-			PackOrFruit=1;
+			PackOrFruitOrPlayer=1;
 		}
 		if (arg0.getSource()==Fruit) {
-			PackOrFruit=2;
+			PackOrFruitOrPlayer=2;
+		}
+		if (arg0.getSource()==Player) {
+			PackOrFruitOrPlayer=3;
 		}
 		if (arg0.getSource()==save) {
 			JFileChooser j = new JFileChooser(); 
