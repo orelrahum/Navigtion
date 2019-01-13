@@ -1,6 +1,8 @@
 package packman;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.Menu;
 import java.awt.MenuBar;
@@ -14,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import Coords.MyCoords;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,12 +26,14 @@ import javax.swing.JOptionPane;
 
 import Coords.MyCoords;
 import Geom.Point3D;
+import Robot.Play;
 import packman.Fruit;
 import packman.packman;
 
 
 public class MyFrame extends JFrame implements MouseListener , ActionListener
 {
+	MyCoords Coords= new MyCoords();
 	private boolean ans=false;
 	Game game=new Game();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
@@ -39,14 +44,17 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	ImageIcon MyFruitImage;
 	ImageIcon myPackmanImage;
 	ImageIcon myPlayerImage;
+	ImageIcon myGhostImage;
 	private MenuItem Player;
 	private MenuItem packman;
 	private MenuItem Fruit;
 	private MenuItem save;
 	private MenuItem load;
 	private MenuItem run;
+	private MenuItem PlayAlone;
 	private MenuItem clear;
 	private int PackOrFruitOrPlayer=0;
+	double Playalone=0;
 	public MyFrame() 
 	{
 		initGUI();		
@@ -75,6 +83,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		save.addActionListener(this);
 		clear = new MenuItem("clear");
 		run = new MenuItem("run");
+		PlayAlone=new MenuItem("Play Alone");
+		PlayAlone.addActionListener(this);
 		clear.addActionListener(this);
 		run.addActionListener(this);
 
@@ -82,6 +92,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		file.add(run);
 		file.add(clear);
 		file.add(save);
+		file.add(PlayAlone);
 		file.add(load);
 		this.setMenuBar(menuBar);
 
@@ -90,6 +101,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			myPackmanImage = new ImageIcon("packman.jpg");
 			MyFruitImage = new ImageIcon("hamburger.png");
 			myPlayerImage=new ImageIcon("Player.JPG");
+			myGhostImage=new ImageIcon ("Ghost.jpg");
 		} catch (IOException e) {
 			e.printStackTrace();}
 	}
@@ -98,6 +110,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 
 	public void paint(Graphics g)
 	{
+
 		g.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
 		for (int j=0; j<game.Fruits.size();j++) {
 			Point3D f=game.Fruits.get(j).getPoint();
@@ -111,6 +124,22 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			g.drawImage(myPackmanImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 			Iterator<Point3D> pathIT=game.packmans.get(i).pathPack.path.iterator();}
 
+
+		for (int z=0; z<game.Ghosts.size();z++) {
+			Point3D f=game.Ghosts.get(z).getPoint();
+			Point3D xAndy=map.CoordsToPixel(f,this.getHeight(),this.getWidth());
+			g.drawImage(myGhostImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
+
+		}
+		Graphics2D g2 = (Graphics2D) g;
+		for (int k=0; k<game.boxes.size();k++) {
+			Point3D p2 = map.CoordsToPixel(game.boxes.get(k).getLeftDown(), this.getWidth(), this.getHeight());
+			Point3D p = map.CoordsToPixel(game.boxes.get(k).getRightUp(), this.getWidth(), this.getHeight());
+			g2.setColor(Color.black);
+			g2.drawRect(p2.iy(), p.ix(), Math.abs(p2.iy() - p.iy()), Math.abs(p2.ix() - p.ix()));
+			g2.fillRect(p2.iy(), p.ix(), Math.abs(p2.iy() - p.iy()), Math.abs(p2.ix() - p.ix()));
+		}
+
 		//			for (int z=0;z<game.packmans.get(i).pathPack.path.size()-1;z++) {
 		//				Point3D PathXY=new Point3D();
 		//				PathXY=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z), this.getHeight(), this.getWidth());
@@ -118,40 +147,12 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		//				PathXY2=map.CoordsToPixel(game.packmans.get(i).pathPack.path.get(z+1), this.getHeight(), this.getWidth());
 		//				g.drawLine(PathXY.ix(),PathXY.iy(),PathXY2.ix(),PathXY2.iy());
 		//			}
-		if (game.M!=null) {
-			Point3D p=game.M.getPoint();
+		if (game.player!=null) {
+			Point3D p=game.player.getPoint();
 			Point3D xAndy=map.CoordsToPixel(p,this.getHeight(),this.getWidth());
 			g.drawImage(myPlayerImage.getImage(),xAndy.ix()-25,xAndy.iy()-25,(int)(this.getWidth()/28.66),(int)(this.getHeight()/12.84), null);
 		}
 
-		if (ans) {
-			ans=false;
-			Thread t=new Thread()
-			{
-				public void run()
-				{
-					MyCoords mc=new MyCoords();
-					int count=getmaxpath(game.packmans);
-					for(int i=0;i<count;i++) {
-						for(int j=0;j<game.packmans.size();j++) {
-							for(int k=0;k<game.Fruits.size();k++) {
-								if(mc.distance3d(game.packmans.get(j).getPoint(),game.Fruits.get(k).getPoint())<=game.packmans.get(j).getRadius())
-									game.Fruits.remove(k);
-								try {
-									game.packmans.get(j).setPoint(game.packmans.get(j).getPath().path.get(i));
-								}catch(IndexOutOfBoundsException e) {}
-							}
-							repaint();
-							try {
-								Thread.sleep(10);
-							}catch(Exception e) {}
-						}
-					}
-				}
-			};
-			t.start();
-			repaint();
-		}
 	}
 
 	@Override
@@ -228,10 +229,66 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			Point3D xANDy = new Point3D (x,y);
 			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
 			double Speed=2 ;
-			game.M= new Player (LatLon,Speed);
+			game.player= new Player (LatLon,Speed);
 			System.out.println(43242);
 		}
 		repaint();
+		if (Playalone==1 && game.player!=null) {
+			Point3D xANDy= new Point3D (x,y);
+			xANDy=map.PixelToCoords(xANDy, this.getHeight(), this.getWidth());
+			double azimuth=Coords.azimuth_elevation_dist(game.player.getPoint(),xANDy)[0];
+			String file_name = "data/Ex4_OOP_example9.csv";
+			Play play1 = new Play(file_name);
+
+			// 2) Set your ID's - of all the group members
+			play1.setIDs(1111, 2222, 3333);
+
+			// 3)Get the GPS coordinates of the "arena"
+			String map_data = play1.getBoundingBox();
+			System.out.println("Bounding Box info: " + map_data);
+
+			// 4) get the game-board data
+			ArrayList<String> board_data = play1.getBoard();
+			for (int i = 0; i < board_data.size(); i++) {
+				System.out.println(board_data.get(i));
+			}
+			System.out.println();
+			game.load(board_data);
+			System.out.println("Init Player Location should be set using the bounding box info");
+
+			// 5) Set the "player" init location - should be a valid location
+			play1.setInitLocation(game.player.getPoint().x(),game.player.getPoint().y());
+			repaint();
+			// 6) Start the "server"
+			play1.start(); // default max time is 100 seconds (1000*100 ms).
+
+			// 7) "Play" as long as there are "fruits" and time
+			for (int i = 0; i < 10; i++) {
+				while (play1.isRuning()) {
+					i++;
+					// 7.1) this is the main command to the player (on the server side)
+					play1.rotate(azimuth);
+					System.out.println("***** " + i + "******");
+
+					// 7.2) get the current score of the game
+					String info = play1.getStatistics();
+					System.out.println(info);
+					// 7.3) get the game-board current state
+					board_data = play1.getBoard();
+					for (int a = 0; a < board_data.size(); a++) {
+						System.out.println(board_data.get(a));
+					}
+					System.out.println();
+				}
+				// 8) stop the server - not needed in the real implementation.
+				// play1.stop();
+				System.out.println("**** Done Game (user stop) ****");
+
+				// 9) print the data & save to the course DB
+				String info = play1.getStatistics();
+				System.out.println(info);
+			}
+		}
 	}
 
 	@Override
@@ -287,6 +344,10 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			ShortestPathAlgo Algo= new ShortestPathAlgo(game);
 			repaint();
 			ans=true;
+		}
+		if (arg0.getSource()==PlayAlone) {
+			
+			Playalone=1;
 		}
 	}
 	public int getmaxpath(ArrayList<packman>arr) {
