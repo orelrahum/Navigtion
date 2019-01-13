@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import Coords.MyCoords;
@@ -39,7 +40,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	Game game=new Game();
 	Iterator<Fruit> FruitsIT=game.Fruits.iterator();
 	Iterator<packman> packmansIT=game.packmans.iterator();
-	double azimuth;
+	double angle;
 	private int IDfruit=1;
 	private int IDpackman=1;
 	public BufferedImage myImage;
@@ -52,12 +53,16 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	private MenuItem Fruit;
 	private MenuItem save;
 	private MenuItem load;
+	private int x,y;
 	private MenuItem run;
 	private MenuItem StartServer;
 	private MenuItem PlayAlone;
 	private MenuItem clear;
+	private MenuItem azimuth;
 	private int PackOrFruitOrPlayer=0;
 	double Playalone=0;
+	private Play Play1;
+	private boolean insertplayer=false;
 	public MyFrame() 
 	{
 		initGUI();		
@@ -74,6 +79,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		Player.addActionListener(this);
 		packman.addActionListener(this);
 		Fruit.addActionListener(this);
+		azimuth=new MenuItem("azimuth");
+		azimuth.addActionListener(this);
 
 		menuBar.add(menu);
 		menu.add(Player);
@@ -100,6 +107,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		file.add(PlayAlone);
 		file.add(StartServer);
 		file.add(load);
+		file.add(azimuth);
 		this.setMenuBar(menuBar);
 
 		try {
@@ -165,8 +173,8 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 	@Override
 	public void mouseClicked(MouseEvent arg) {
 		System.out.println("("+ arg.getX() + "," + arg.getY() +")");
-		int x = arg.getX();
-		int y = arg.getY();
+		x = arg.getX();
+		y = arg.getY();
 		if (PackOrFruitOrPlayer==1) {
 			String rad,sp,hei;
 			double Radius=0,speed=0,height=0;
@@ -235,16 +243,16 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 		if (PackOrFruitOrPlayer==3) {
 			Point3D xANDy = new Point3D (x,y);
 			Point3D LatLon=map.PixelToCoords(xANDy,this.getHeight(),this.getWidth());
-			double Speed=2 ;
+			double Speed=20;
 			game.player= new Player (LatLon,Speed);
+			insertplayer=true;
+			play1.setInitLocation(game.player.getPoint().x(), game.player.getPoint().y());
+			// 6) Start the "server"
+			play1.start(); // default max time is 100 seconds (1000*100 ms).
+
 		}
 		repaint();
 
-		if (Playalone==1 && game.player!=null) {
-			Point3D xANDy= new Point3D (x,y);
-			xANDy=map.PixelToCoords(xANDy, this.getHeight(), this.getWidth());
-			azimuth=Coords.azimuth_elevation_dist(game.player.getPoint(),xANDy)[0];
-		}
 	}
 
 	@Override
@@ -305,7 +313,7 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			// 1) Create a "play" from a file (attached to Ex4)
 
 			String file_name = "data/Ex4_OOP_example9.csv";
-			Play play1 = new Play(file_name);
+			play1 = new Play(file_name);
 
 			// 2) Set your ID's - of all the group members
 			play1.setIDs(1111, 2222, 3333);
@@ -325,61 +333,45 @@ public class MyFrame extends JFrame implements MouseListener , ActionListener
 			System.out.println("Init Player Location should be set using the bounding box info");
 		}
 		if (arg0.getSource()==PlayAlone) {
-			Playalone=1;
-			// 1) Create a "play" from a file (attached to Ex4)
+			if(insertplayer==true) {
+				Playalone=1;
+				// 5) Set the "player" init location - should be a valid location
+				// 7) "Play" as long as there are "fruits" and time
+				if (play1.isRuning()) {
+					// 7.1) this is the main command to the player (on the server side)
+					play1.rotate(angle);
+					System.out.println(angle);
+					// 7.2) get the current score of the game
+					String info = play1.getStatistics();
+					System.out.println(info);
+					ArrayList<String> board_data = play1.getBoard();
+					// 7.3) get the game-board current state
+					for (int a = 0; a < board_data.size(); a++) {
+						System.out.println(board_data.get(a));
 
-						String file_name = "data/Ex4_OOP_example9.csv";
-						Play play1 = new Play(file_name);
-
-						// 2) Set your ID's - of all the group members
-						play1.setIDs(1111, 2222, 3333);
-
-						// 3)Get the GPS coordinates of the "arena"
-						String map_data = play1.getBoundingBox();
-						System.out.println("Bounding Box info: " + map_data);
-
-						// 4) get the game-board data
-						ArrayList<String> board_data = play1.getBoard();
-						for (int i = 0; i < board_data.size(); i++) {
-							System.out.println(board_data.get(i));
-						}
-						game.load(board_data);
-						repaint();
-						System.out.println();
-						System.out.println("Init Player Location should be set using the bounding box info");
-			// 5) Set the "player" init location - should be a valid location
-			System.out.println(game.player.getPoint().toString());
-			play1.setInitLocation(game.player.getPoint().x(), game.player.getPoint().y());
-
-			// 6) Start the "server"
-			play1.start(); // default max time is 100 seconds (1000*100 ms).
-
-			// 7) "Play" as long as there are "fruits" and time
-			if (play1.isRuning()) {
-				// 7.1) this is the main command to the player (on the server side)
-				play1.rotate(azimuth);
-				System.out.println(azimuth);
-				// 7.2) get the current score of the game
-				String info = play1.getStatistics();
-				System.out.println(info);
-				// 7.3) get the game-board current state
-				for (int a = 0; a < board_data.size(); a++) {
-					System.out.println(board_data.get(a));
-
+					}
+					System.out.println();
+					game.load(board_data);
 				}
-				System.out.println();
-				game.load(board_data);
-			}
-			// 8) stop the server - not needed in the real implementation.
-			// play1.stop();
-			repaint();
-			if (!play1.isRuning()) {
-				System.out.println("**** Done Game (user stop) ****");
+				// 8) stop the server - not needed in the real implementation.
+				// play1.stop();
+				repaint();
+				if (!play1.isRuning()) {
+					System.out.println("**** Done Game (user stop) ****");
 
-				// 9) print the data & save to the course DB
-				String info = play1.getStatistics();
-				System.out.println(info);
+					// 9) print the data & save to the course DB
+					String info = play1.getStatistics();
+					System.out.println(info);
+				}
 			}
+			else {
+				System.out.println("You shold insert player first");
+			}
+		}
+		if(arg0.getSource()==azimuth) {
+			Point3D xANDy= new Point3D (x,y);
+			xANDy=map.PixelToCoords(xANDy, this.getHeight(), this.getWidth());
+			angle=Coords.azimuth_elevation_dist(game.player.getPoint(),xANDy)[0];
 		}
 	}
 	public int getmaxpath(ArrayList<packman>arr) {
